@@ -19,19 +19,18 @@ public class AdminController {
 
     // Endpoint to get all unique customer IDs that have interacted with the admin
     @GetMapping("/customers")
-    public ResponseEntity<List<Long>> getAllCustomerIds() {
+    public ResponseEntity<List<String>> getAllCustomerIds() {
         List<Message> messages = messageRepository.findAll();
-        List<Long> customerIds = messages.stream()
+        List<String> customerIds = messages.stream()
                 .map(Message::getCustomerId)
                 .distinct()
-                .filter(id -> !id.equals(1L)) // Assuming admin ID is 1
                 .collect(Collectors.toList());
         return ResponseEntity.ok(customerIds);
     }
 
     // Endpoint to get chat history with a specific customer
     @GetMapping("/chat/{customerId}")
-    public ResponseEntity<List<Message>> getCustomerChat(@PathVariable Long customerId) {
+    public ResponseEntity<List<Message>> getCustomerChat(@PathVariable String customerId) {
         // Now we only need the customerId, since there's a single admin
         List<Message> messages = messageRepository.findByCustomerId(customerId);
         return ResponseEntity.ok(messages);

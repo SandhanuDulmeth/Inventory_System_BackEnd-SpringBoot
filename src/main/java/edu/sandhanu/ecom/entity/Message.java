@@ -17,7 +17,7 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long customerId;
+    private String customerId;  // Should match DTO
     private String content;
     private Long timestamp;
 }
