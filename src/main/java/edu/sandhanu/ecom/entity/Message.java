@@ -1,6 +1,7 @@
 package edu.sandhanu.ecom.entity;
 
 
+import edu.sandhanu.ecom.util.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,8 +16,11 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String customerId;  // Should match DTO
-    
+
     @Lob
     private String content;     // Enable multiline storage
     private Long timestamp;
+
+    @Enumerated(EnumType.STRING)
+    private User user;
 }
