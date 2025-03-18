@@ -1,10 +1,7 @@
 package edu.sandhanu.ecom.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +15,8 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String customerId;  // Should match DTO
-    private String content;
+    
+    @Lob
+    private String content;     // Enable multiline storage
     private Long timestamp;
 }
