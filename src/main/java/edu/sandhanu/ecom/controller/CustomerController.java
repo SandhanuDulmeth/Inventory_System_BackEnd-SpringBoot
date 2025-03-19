@@ -39,23 +39,7 @@ public class CustomerController {
 
 
 
-    // Update an existing message by its ID
-    @PutMapping("/messages/{id}")
-    public ResponseEntity<Message> updateMessage(@PathVariable("id") Long id,
-                                                 @RequestBody MessageDTO updatedMessageDTO) {
-        Optional<Message> optionalMessage = messageRepository.findById(id);
-        if (optionalMessage.isPresent()) {
-            Message message = optionalMessage.get();
-            // Update only fields you wish to allow changes to
-            message.setContent(updatedMessageDTO.getContent());
-            message.setTimestamp(updatedMessageDTO.getTimestamp());
-            message.setUser(User.CUSTOMER); // Maintain user type on update
-            Message savedMessage = messageRepository.save(message);
-            return new ResponseEntity<>(savedMessage, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+
 
 
 }

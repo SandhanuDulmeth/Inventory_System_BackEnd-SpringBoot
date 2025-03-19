@@ -4,6 +4,7 @@ import edu.sandhanu.ecom.entity.Message;
 import edu.sandhanu.ecom.model.MessageDTO;
 import edu.sandhanu.ecom.repository.custom.MessageRepository;
 import edu.sandhanu.ecom.util.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 public class ChatController {
 
@@ -73,17 +75,14 @@ public class ChatController {
     public ResponseEntity<List<Message>> getCustomerChat(@PathVariable String customerId) {
         // Now we only need the customerId, since there's a single admin
         List<Message> messages = messageRepository.findByCustomerId(customerId);
+        log.info("messages: {}", messages);
         return ResponseEntity.ok(messages);
     }
 
     @MessageMapping("/message/delete")
     @SendTo("/topic/messages")
-    public ResponseEntity<HttpStatus> deleteMessage( Long id) {
-        try {
-            messageRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public Long deleteMessage(Long id) {
+        messageRepository.deleteById(id);
+        return id; // Return the ID to broadcast to all clients
     }
 }
