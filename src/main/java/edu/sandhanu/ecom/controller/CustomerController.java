@@ -36,28 +36,8 @@ public class CustomerController {
         return "Customer order details";
     }
 
-    @PostMapping("/send-message")
-    public ResponseEntity<Message> sendMessageToCustomer(@RequestBody MessageDTO messageDTO) {
-        // Convert the DTO to an entity
-        Message message = new Message();
-        message.setCustomerId(messageDTO.getCustomerId());
-        message.setContent(messageDTO.getContent());
-        message.setTimestamp(messageDTO.getTimestamp());
-        message.setUser(User.CUSTOMER); // Set user type explicitly
 
-        // Save the message in the DB
-        Message savedMessage = messageRepository.save(message);
 
-        // Return the saved entity
-        return new ResponseEntity<>(savedMessage, HttpStatus.CREATED);
-    }
-
-    @GetMapping("/messages/{email}")
-    public ResponseEntity<List<Message>> getMessagesByEmail(@PathVariable("email") String email) {
-        // Find messages by customer email
-        List<Message> messages = messageRepository.findByCustomerId(email);
-        return new ResponseEntity<>(messages, HttpStatus.OK);
-    }
 
     // Update an existing message by its ID
     @PutMapping("/messages/{id}")
@@ -77,14 +57,5 @@ public class CustomerController {
         }
     }
 
-    // Delete a message by its ID
-    @DeleteMapping("/messages/{id}")
-    public ResponseEntity<HttpStatus> deleteMessage(@PathVariable("id") Long id) {
-        try {
-            messageRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+
 }
