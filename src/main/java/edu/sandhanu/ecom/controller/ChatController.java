@@ -76,8 +76,9 @@ public class ChatController {
         return ResponseEntity.ok(messages);
     }
 
-    @DeleteMapping("/messages/{id}")
-    public ResponseEntity<HttpStatus> deleteMessage(@PathVariable("id") Long id) {
+    @MessageMapping("/message/delete")
+    @SendTo("/topic/messages")
+    public ResponseEntity<HttpStatus> deleteMessage( Long id) {
         try {
             messageRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
