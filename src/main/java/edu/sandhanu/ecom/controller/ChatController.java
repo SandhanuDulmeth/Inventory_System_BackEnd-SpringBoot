@@ -3,15 +3,11 @@ package edu.sandhanu.ecom.controller;
 import edu.sandhanu.ecom.entity.Message;
 import edu.sandhanu.ecom.model.MessageDTO;
 import edu.sandhanu.ecom.repository.custom.MessageRepository;
-import edu.sandhanu.ecom.util.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -75,7 +71,7 @@ public class ChatController {
     public ResponseEntity<List<Message>> getCustomerChat(@PathVariable String customerId) {
         // Now we only need the customerId, since there's a single admin
         List<Message> messages = messageRepository.findByCustomerId(customerId);
-        log.info("messages: {}", messages);
+
         return ResponseEntity.ok(messages);
     }
 
