@@ -1,4 +1,4 @@
-package edu.sandhanu.ecom.serivce;
+package edu.sandhanu.ecom.service;
 
 public interface SuperService {
 }

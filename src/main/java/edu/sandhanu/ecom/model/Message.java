@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MessageDTO {
+public class Message {
     private Long id;
     private String customerId;  // Changed from Long to String to match email
     private String content;
@@ -16,7 +16,7 @@ public class MessageDTO {
     private User user;
 
 
-    public MessageDTO(String customerId, String content, Long timestamp, User user) {
+    public Message(String customerId, String content, Long timestamp, User user) {
         this.customerId = customerId;
         this.content = content;
         this.timestamp = timestamp;

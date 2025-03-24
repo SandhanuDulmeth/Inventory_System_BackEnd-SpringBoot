@@ -13,7 +13,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll() // Allow all requests without authentication
+                        .anyRequest().permitAll()
                 )
                 .cors(Customizer.withDefaults());
         return http.build();

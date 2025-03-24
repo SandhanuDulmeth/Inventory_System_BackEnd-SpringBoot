@@ -1,7 +1,7 @@
 package edu.sandhanu.ecom.controller;
 
-import edu.sandhanu.ecom.entity.Message;
-import edu.sandhanu.ecom.model.MessageDTO;
+import edu.sandhanu.ecom.entity.MessageEntity;
+import edu.sandhanu.ecom.model.Message;
 import edu.sandhanu.ecom.repository.custom.MessageRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,23 +28,23 @@ public class ChatController {
 
     @MessageMapping("/chat")
     @SendTo("/topic/messages")
-    public Message handleChatMessage(MessageDTO messageDTO) {
+    public MessageEntity handleChatMessage(Message messageDTO) {
         // Convert DTO to entity
-        Message message = new Message();
+        MessageEntity message = new MessageEntity();
         message.setCustomerId(messageDTO.getCustomerId());
         message.setContent(messageDTO.getContent());
         message.setTimestamp(System.currentTimeMillis());
         message.setUser(messageDTO.getUser()); // ADMIN or CUSTOMER
 
         // Save to database
-        Message savedMessage = messageRepository.save(message);
+        MessageEntity savedMessage = messageRepository.save(message);
 
         return savedMessage;
     }
     @MessageMapping("/chat/update")
     @SendTo("/topic/messages")
-    public Message handleMessageUpdate(MessageDTO messageDTO) {
-        Message existing = messageRepository.findById(messageDTO.getId())
+    public MessageEntity handleMessageUpdate(Message messageDTO) {
+        MessageEntity existing = messageRepository.findById(messageDTO.getId())
                 .orElseThrow(() -> new RuntimeException("Message not found"));
 
         if (!existing.getCustomerId().equals(messageDTO.getCustomerId())) {
@@ -58,9 +58,9 @@ public class ChatController {
     }
     @GetMapping("/customers")
     public ResponseEntity<List<String>> getAllCustomerIds() {
-        List<Message> messages = messageRepository.findAll();
+        List<MessageEntity> messages = messageRepository.findAll();
         List<String> customerIds = messages.stream()
-                .map(Message::getCustomerId)
+                .map(MessageEntity::getCustomerId)
                 .distinct()
                 .collect(Collectors.toList());
         return ResponseEntity.ok(customerIds);
@@ -68,9 +68,9 @@ public class ChatController {
 
     // Endpoint to get chat history with a specific customer
     @GetMapping("/chat/{customerId}")
-    public ResponseEntity<List<Message>> getCustomerChat(@PathVariable String customerId) {
+    public ResponseEntity<List<MessageEntity>> getCustomerChat(@PathVariable String customerId) {
         // Now we only need the customerId, since there's a single admin
-        List<Message> messages = messageRepository.findByCustomerId(customerId);
+        List<MessageEntity> messages = messageRepository.findByCustomerId(customerId);
 
         return ResponseEntity.ok(messages);
     }

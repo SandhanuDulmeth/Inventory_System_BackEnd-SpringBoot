@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 
 
 @Data
-@NoArgsConstructor  // Creates a no-argument constructor
-@AllArgsConstructor // Optional: Provides a constructor for all fields
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductEntity {
     private Integer id;
     private String name;

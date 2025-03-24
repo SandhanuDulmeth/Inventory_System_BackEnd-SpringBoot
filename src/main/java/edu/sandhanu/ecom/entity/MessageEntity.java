@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor  // Creates a no-argument constructor
 @AllArgsConstructor
 @Entity
-public class Message {
+public class MessageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

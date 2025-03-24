@@ -1,4 +1,4 @@
-package edu.sandhanu.ecom.serivce.custom;
+package edu.sandhanu.ecom.service.custom;
 
 
 import edu.sandhanu.ecom.model.Product;

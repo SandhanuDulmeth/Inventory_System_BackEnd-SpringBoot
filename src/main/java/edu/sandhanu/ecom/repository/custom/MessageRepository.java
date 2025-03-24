@@ -1,13 +1,13 @@
 package edu.sandhanu.ecom.repository.custom;
 
-import edu.sandhanu.ecom.entity.Message;
+import edu.sandhanu.ecom.entity.MessageEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface MessageRepository extends JpaRepository<Message, Long> {
+public interface MessageRepository extends JpaRepository<MessageEntity, Long> {
 
-    List<Message> findByCustomerId(String customerId);
+    List<MessageEntity> findByCustomerId(String customerId);
 }
