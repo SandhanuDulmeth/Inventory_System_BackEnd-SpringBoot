@@ -3,7 +3,10 @@ package edu.sandhanu.ecom.controller;
 import edu.sandhanu.ecom.entity.MessageEntity;
 import edu.sandhanu.ecom.model.Message;
 import edu.sandhanu.ecom.repository.custom.MessageRepository;
+import edu.sandhanu.ecom.service.custom.MessageService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -17,35 +20,24 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 public class ChatController {
 
-    private final MessageRepository messageRepository;
+   @Autowired
+   private MessageService messageService;
 
-    @Autowired
-    public ChatController(MessageRepository messageRepository) {
-        this.messageRepository = messageRepository;
-    }
 
     @MessageMapping("/chat")
     @SendTo("/topic/messages")
-    public MessageEntity handleChatMessage(Message messageDTO) {
-        // Convert DTO to entity
-        MessageEntity message = new MessageEntity();
-        message.setCustomerId(messageDTO.getCustomerId());
-        message.setContent(messageDTO.getContent());
-        message.setTimestamp(System.currentTimeMillis());
-        message.setUser(messageDTO.getUser()); // ADMIN or CUSTOMER
-
-        // Save to database
-        MessageEntity savedMessage = messageRepository.save(message);
-
-        return savedMessage;
+    public Message handleChatMessage(Message message) {
+        return messageService.save(message);
     }
+
     @MessageMapping("/chat/update")
     @SendTo("/topic/messages")
-    public MessageEntity handleMessageUpdate(Message messageDTO) {
-        MessageEntity existing = messageRepository.findById(messageDTO.getId())
-                .orElseThrow(() -> new RuntimeException("Message not found"));
+    public Message handleMessageUpdate(Message messageDTO) {
+        Message existing = messageService.findById(messageDTO.getId());
+
 
         if (!existing.getCustomerId().equals(messageDTO.getCustomerId())) {
             throw new SecurityException("Unauthorized message update");
@@ -54,13 +46,13 @@ public class ChatController {
         existing.setContent(messageDTO.getContent());
         existing.setTimestamp(System.currentTimeMillis());
 
-        return messageRepository.save(existing);
+        return messageService.save(existing);
     }
     @GetMapping("/customers")
     public ResponseEntity<List<String>> getAllCustomerIds() {
-        List<MessageEntity> messages = messageRepository.findAll();
+        List<Message> messages = messageService.findAll();
         List<String> customerIds = messages.stream()
-                .map(MessageEntity::getCustomerId)
+                .map(Message::getCustomerId)
                 .distinct()
                 .collect(Collectors.toList());
         return ResponseEntity.ok(customerIds);
@@ -68,9 +60,9 @@ public class ChatController {
 
     // Endpoint to get chat history with a specific customer
     @GetMapping("/chat/{customerId}")
-    public ResponseEntity<List<MessageEntity>> getCustomerChat(@PathVariable String customerId) {
-        // Now we only need the customerId, since there's a single admin
-        List<MessageEntity> messages = messageRepository.findByCustomerId(customerId);
+    public ResponseEntity<List<Message>> getCustomerChat(@PathVariable String customerId) {
+
+        List<Message> messages = messageService.findByCustomerId(customerId);
 
         return ResponseEntity.ok(messages);
     }
@@ -78,7 +70,7 @@ public class ChatController {
     @MessageMapping("/message/delete")
     @SendTo("/topic/messages")
     public Long deleteMessage(Long id) {
-        messageRepository.deleteById(id);
-        return id; // Return the ID to broadcast to all clients
+        messageService.deleteById(id);
+        return id;
     }
 }

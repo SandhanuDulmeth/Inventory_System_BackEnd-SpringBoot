@@ -2,6 +2,7 @@ package edu.sandhanu.ecom.config;
 
 
 import edu.sandhanu.ecom.repository.custom.AdminRepository;
+import edu.sandhanu.ecom.repository.custom.MessageRepository;
 import edu.sandhanu.ecom.repository.custom.ProductRepository;
 import edu.sandhanu.ecom.repository.custom.impl.AdminRepositoryImpl;
 import edu.sandhanu.ecom.repository.custom.impl.ProductRepositoryImpl;
@@ -20,6 +21,8 @@ public class AppConfig {
     public AdminRepository adminRepository() {
         return new AdminRepositoryImpl();
     }
+
+
 
     @Bean
     public ModelMapper getModelMapper() {

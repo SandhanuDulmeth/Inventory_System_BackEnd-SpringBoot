@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor  // Creates a no-argument constructor
 @AllArgsConstructor
 @Entity
+@Table(name = "Message")
 public class MessageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

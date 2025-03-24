@@ -2,13 +2,14 @@ package edu.sandhanu.ecom.controller;
 
 import edu.sandhanu.ecom.repository.custom.MessageRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:5173") // Enable CORS for this controller
 @RestController
 @RequestMapping("/api/customer")
 public class CustomerController {
-
+@Autowired
     private final MessageRepository messageRepository;
 
     public CustomerController(MessageRepository messageRepository) {
