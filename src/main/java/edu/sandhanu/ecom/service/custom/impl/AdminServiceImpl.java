@@ -20,4 +20,9 @@ public class AdminServiceImpl implements AdminService {
     public Boolean checkAdminByEmail(String email) {
         return adminRepository.checkAdminByEmail(email);
     }
+
+    @Override
+    public Boolean checkAdminPasswordByEmail(String email, String password) {
+        return adminRepository.checkAdminPasswordByEmail(email, password);
+    }
 }

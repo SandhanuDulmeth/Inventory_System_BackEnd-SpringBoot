@@ -23,4 +23,14 @@ public class AdminRepositoryImpl implements AdminRepository {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public Boolean checkAdminPasswordByEmail(String email, String password) {
+        try {
+            ResultSet rs = CrudUtil.execute("SELECT EXISTS ( SELECT 1 FROM Admin WHERE email = ? AND password = ?)",email, password );
+            return rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

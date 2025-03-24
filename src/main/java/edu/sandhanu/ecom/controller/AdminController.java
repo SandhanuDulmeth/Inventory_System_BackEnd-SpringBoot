@@ -19,6 +19,10 @@ public class AdminController {
         return ResponseEntity.ok(adminService.checkAdminByEmail(email));
     }
 
+    @GetMapping
+    public ResponseEntity<Boolean> checkAdminPasswordByEmail(@RequestParam String email, @RequestParam String password) {
+        return ResponseEntity.ok(adminService.checkAdminPasswordByEmail(email, password));    }
+
 
 
 
