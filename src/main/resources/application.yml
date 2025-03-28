@@ -7,9 +7,22 @@ spring:
     hikari:
       maximum-pool-size: 10
       connection-timeout: 30000
+      connection-test-query: SELECT 1
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
   ai:
     openai:
-      api-key: ${OPENAI_API_KEY}
+      base-url: https://openrouter.ai/api/v1
+      api-key:  YOUR_API_KEY
+      chat:
+        options:
+          model: mistralai/mistral-7b-instruct:free
+          headers:
+            HTTP-Referer: http://localhost:8080
+            X-Title: Inventory System AI
+            Content-Type: application/json
+
   jpa:
     open-in-view: false
     hibernate:
@@ -24,3 +37,6 @@ spring:
           batch_size: 25
           order_inserts: true
           order_updates: true
+          time_zone: UTC
+        query:
+          fail_on_pagination_over_collection_fetch: true
