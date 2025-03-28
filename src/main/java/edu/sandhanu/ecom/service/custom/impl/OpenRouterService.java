@@ -29,31 +29,31 @@ public class OpenRouterService {
     public String generateResponse(String prompt) {
         String url = baseUrl + "/chat/completions";
         
-        // Set up headers
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", "Bearer " + apiKey);
         headers.set("HTTP-Referer", "http://localhost:8080");
         headers.set("X-Title", "Inventory System AI");
         
-        // Create message
+
         Map<String, String> message = new HashMap<>();
         message.put("role", "user");
         message.put("content", prompt);
         
-        // Create request body
+
         Map<String, Object> requestBody = new HashMap<>();
         requestBody.put("model", "mistralai/mistral-7b-instruct:free");
         requestBody.put("messages", List.of(message));
         
-        // Create HTTP entity
+
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
         
         try {
-            // Make POST request
+
             Map<String, Object> response = restTemplate.postForObject(url, entity, Map.class);
             
-            // Extract response content
+
             if (response != null && response.containsKey("choices")) {
                 List<?> choices = (List<?>) response.get("choices");
                 if (!choices.isEmpty()) {
