@@ -7,14 +7,23 @@ import edu.sandhanu.ecom.model.Message;
 import java.util.List;
 
 public interface MessageService {
-    List<Message> findByCustomerId(String customerId);
+    Integer getCustomerIdByEmail(String customerId);
+
+    //    List<Message> findByCustomerId(String customerId);
+//    Message save(Message message);
+//
+//
+//    void deleteById(Long id);
+//
+//
+//    Message findById(Long id);
+//
+//    List<Message> findAll();
+List<Message> findByCustomerId(Long customerId);
     Message save(Message message);
-
-
     void deleteById(Long id);
-
-
     Message findById(Long id);
-
     List<Message> findAll();
+
+
 }

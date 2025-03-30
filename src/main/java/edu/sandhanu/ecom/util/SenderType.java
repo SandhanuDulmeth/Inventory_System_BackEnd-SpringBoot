@@ -1,6 +1,6 @@
 package edu.sandhanu.ecom.util;
 
-public enum User {
+public enum SenderType {
     ADMIN,
     CUSTOMER
 }

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/customer")
 public class CustomerController {
-@Autowired
-    private final MessageRepository messageRepository;
+    @Autowired
+    private  MessageRepository messageRepository;
 
     public CustomerController(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;
@@ -18,13 +18,13 @@ public class CustomerController {
 
     @GetMapping("/profile")
     public String getCustomerProfile() {
-        // This is a placeholder for fetching customer profile details
+
         return "Customer profile details";
     }
 
     @GetMapping("/orders")
     public String getCustomerOrders() {
-        // This is a placeholder for fetching customer orders
+
         return "Customer order details";
     }
 

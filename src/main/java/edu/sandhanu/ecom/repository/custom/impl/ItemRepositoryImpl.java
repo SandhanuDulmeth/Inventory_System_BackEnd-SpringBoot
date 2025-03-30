@@ -8,8 +8,11 @@ import java.sql.SQLException;
 
 public class ItemRepositoryImpl implements ItemRepository {
     @Override
-    public int countAllItems() {
-        try (ResultSet resultSet = CrudUtil.execute("SELECT COUNT(*) AS count FROM Item")) {
+    public int countAllItems(Long customerId) {
+        try (ResultSet resultSet = CrudUtil.execute(
+                "SELECT COUNT(*) AS count FROM Product WHERE customer_id = ?",
+                customerId
+        )) {
             return resultSet.next() ? resultSet.getInt("count") : 0;
         } catch (SQLException e) {
             throw new RuntimeException("Failed to count items", e);
@@ -17,10 +20,10 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public int countLowStockItems(int threshold) {
+    public int countLowStockItems(int threshold, Long customerId) {
         try (ResultSet resultSet = CrudUtil.execute(
-                "SELECT COUNT(*) AS count FROM Item WHERE stock_quantity < ?",
-                threshold
+                "SELECT COUNT(*) AS count FROM Product WHERE stock_quantity < ? AND customer_id = ?",
+                threshold, customerId
         )) {
             return resultSet.next() ? resultSet.getInt("count") : 0;
         } catch (SQLException e) {
@@ -29,9 +32,10 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public double calculateTotalValue() {
+    public double calculateTotalValue(Long customerId) {
         try (ResultSet resultSet = CrudUtil.execute(
-                "SELECT SUM(price * stock_quantity) AS total_value FROM Item"
+                "SELECT SUM(price * stock_quantity) AS total_value FROM Product WHERE customer_id = ?",
+                customerId
         )) {
             return resultSet.next() ? resultSet.getDouble("total_value") : 0.0;
         } catch (SQLException e) {
@@ -40,9 +44,10 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public int countDistinctCategories() {
+    public int countDistinctCategories(Long customerId) {
         try (ResultSet resultSet = CrudUtil.execute(
-                "SELECT COUNT(DISTINCT category_id) AS category_count FROM Item"
+                "SELECT COUNT(DISTINCT category_id) AS category_count FROM Product WHERE customer_id = ?",
+                customerId
         )) {
             return resultSet.next() ? resultSet.getInt("category_count") : 0;
         } catch (SQLException e) {

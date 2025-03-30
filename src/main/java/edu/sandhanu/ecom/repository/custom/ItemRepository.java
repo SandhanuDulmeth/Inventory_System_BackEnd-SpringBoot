@@ -1,11 +1,8 @@
 package edu.sandhanu.ecom.repository.custom;
 
 public interface ItemRepository {
-    int countAllItems();
-
-    int countLowStockItems(int i);
-
-    double calculateTotalValue();
-
-    int countDistinctCategories();
+    int countAllItems(Long customerId);
+    int countLowStockItems(int threshold, Long customerId);
+    double calculateTotalValue(Long customerId);
+    int countDistinctCategories(Long customerId);
 }

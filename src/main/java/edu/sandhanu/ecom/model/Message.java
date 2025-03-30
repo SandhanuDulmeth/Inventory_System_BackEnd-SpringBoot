@@ -1,6 +1,7 @@
 package edu.sandhanu.ecom.model;
 
-import edu.sandhanu.ecom.util.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import edu.sandhanu.ecom.util.SenderType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,18 +10,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Message {
+    @JsonIgnore
     private Long id;
-    private String customerId;  // Changed from Long to String to match email
+    private Long customerId;
     private String content;
     private Long timestamp;
-    private User user;
+    private SenderType senderType;
 
 
-    public Message(String customerId, String content, Long timestamp, User user) {
+    public Message(Long customerId, String content, Long timestamp, SenderType senderType) {
         this.customerId = customerId;
         this.content = content;
         this.timestamp = timestamp;
-        this.user = user;
+        this.senderType = senderType;
     }
 }
 

@@ -19,23 +19,24 @@ public class CrudUtil {
 
         Connection connection = DBConnection.getInstance().getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
+        
         setParameters(preparedStatement, params);
         return preparedStatement.executeQuery();
+
     }
 
     public static int executeUpdate(String sql, Object... params) throws SQLException {
         logger.info("Executing Update: " + sql + " | Parameters: " + Arrays.toString(params));
 
-        try (Connection connection = DBConnection.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
+        Connection connection = DBConnection.getInstance().getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             setParameters(preparedStatement, params);
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "SQL Execution Failed", e);
             throw e;
         }
+
     }
 
     private static void setParameters(PreparedStatement preparedStatement, Object... params) throws SQLException {
