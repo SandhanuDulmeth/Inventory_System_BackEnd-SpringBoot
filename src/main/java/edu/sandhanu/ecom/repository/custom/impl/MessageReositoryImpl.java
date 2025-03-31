@@ -109,13 +109,12 @@ public class MessageReositoryImpl implements MessageRepository {
 
     @Override
     public List<MessageEntity> findAll() {
-        try {
-            ResultSet resultSet = CrudUtil.execute("SELECT * FROM Message");
-            ArrayList<MessageEntity> messages = new ArrayList<>();
-            while(resultSet.next()){
+        List<MessageEntity> messages = new ArrayList<>();
+        try (ResultSet resultSet = CrudUtil.execute("SELECT * FROM Message")) {
+            while (resultSet.next()) {
                 String senderTypeStr = resultSet.getString("sender_type");
-                SenderType senderType = (senderTypeStr != null) ? SenderType.valueOf(senderTypeStr) : null;
-                
+                SenderType senderType = SenderType.valueOf(senderTypeStr); // No null check needed
+
                 messages.add(new MessageEntity(
                         resultSet.getLong("id"),
                         resultSet.getLong("customer_id"),
@@ -124,9 +123,13 @@ public class MessageReositoryImpl implements MessageRepository {
                         senderType
                 ));
             }
-            return messages;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            // Log the exception or handle it appropriately
+            throw new RuntimeException("Error retrieving messages", e);
+        } catch (IllegalArgumentException e) {
+            // Handle invalid sender_type values from the database
+            throw new RuntimeException("Invalid sender type in database", e);
         }
+        return messages;
     }
 }

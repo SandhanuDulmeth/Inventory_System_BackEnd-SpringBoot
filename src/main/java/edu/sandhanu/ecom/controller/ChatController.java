@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -29,29 +30,15 @@ public class ChatController {
 
     @MessageMapping("/chat")
     @SendTo("/topic/messages")
-    public org.springframework.messaging.Message<Message> handleChatMessage(
-            @Valid Message message,
-            @Header("temp-id") String tempId
-    ) {
-
-        if(message.getId() != null) {
-            throw new IllegalArgumentException("New messages should not have an ID");
-        }
-
+    public Message handleChatMessage(@Valid Message message) {
         message.setTimestamp(System.currentTimeMillis());
-        Message savedMessage = messageService.save(message);
-
-        return MessageBuilder
-                .withPayload(savedMessage)
-                .setHeader("temp-id", tempId)
-                .build();
+        return messageService.save(message);
     }
 
     @MessageMapping("/chat/update")
     @SendTo("/topic/messages")
     public Message handleMessageUpdate(Message messageDTO) {
         Message existing = messageService.findById(messageDTO.getId());
-
 
         if (!existing.getCustomerId().equals(messageDTO.getCustomerId())) {
             throw new SecurityException("Unauthorized message update");
@@ -63,7 +50,15 @@ public class ChatController {
         return messageService.save(existing);
     }
 
-
+    @GetMapping("/customers")
+    public ResponseEntity<List<Long>> getAllCustomerIds() {
+        List<Message> messages = messageService.findAll();
+        List<Long> customerIds = messages.stream()
+                .map(Message::getCustomerId)
+                .distinct()
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(customerIds);
+    }
 
     @GetMapping("/chat/{customerId}")
     public ResponseEntity<List<Message>> getCustomerChat(@PathVariable Long customerId) {

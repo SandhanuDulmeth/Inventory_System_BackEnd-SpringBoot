@@ -38,6 +38,7 @@ public class BusinessController {
             );
 
             String aiResponse = openRouterService.generateResponse(prompt);
+
             return ResponseEntity.ok(aiResponse);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Unable to generate status for customer: " + customerId);
