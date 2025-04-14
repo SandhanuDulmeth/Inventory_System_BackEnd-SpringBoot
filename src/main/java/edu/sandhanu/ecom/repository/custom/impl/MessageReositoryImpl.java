@@ -31,7 +31,7 @@ public class MessageReositoryImpl implements MessageRepository {
     public Integer getCustomerIdByEmail(String email)  {
     ResultSet customerResult = null;
     try {
-        customerResult = CrudUtil.execute("SELECT id FROM Customer WHERE email = ?", email);
+        customerResult = CrudUtil.executeQuery("SELECT id FROM Customer WHERE email = ?", email);
         if (customerResult.next()) {
             return customerResult.getInt(1);
         }
@@ -43,7 +43,7 @@ public class MessageReositoryImpl implements MessageRepository {
     }
 
     private List<MessageEntity> getMessagesByCustomerId(Long customerId) throws SQLException {
-        ResultSet messageResult = CrudUtil.execute("SELECT * FROM Message WHERE customer_id = ?", customerId);
+        ResultSet messageResult = CrudUtil.executeQuery("SELECT * FROM Message WHERE customer_id = ?", customerId);
         ArrayList<MessageEntity> messages = new ArrayList<>();
         while (messageResult.next()) {
             String senderTypeStr = messageResult.getString("sender_type");
@@ -88,7 +88,7 @@ public class MessageReositoryImpl implements MessageRepository {
     @Override
     public MessageEntity findById(Long id) {
         try {
-           ResultSet resultSet = CrudUtil.execute("SELECT * FROM Message WHERE id = ?", id);
+           ResultSet resultSet = CrudUtil.executeQuery("SELECT * FROM Message WHERE id = ?", id);
            if(resultSet.next()){
                String senderTypeStr = resultSet.getString("sender_type");
                SenderType senderType = (senderTypeStr != null) ? SenderType.valueOf(senderTypeStr) : null;
@@ -110,7 +110,7 @@ public class MessageReositoryImpl implements MessageRepository {
     @Override
     public List<MessageEntity> findAll() {
         List<MessageEntity> messages = new ArrayList<>();
-        try (ResultSet resultSet = CrudUtil.execute("SELECT * FROM Message")) {
+        try (ResultSet resultSet = CrudUtil.executeQuery("SELECT * FROM Message")) {
             while (resultSet.next()) {
                 String senderTypeStr = resultSet.getString("sender_type");
                 SenderType senderType = SenderType.valueOf(senderTypeStr); // No null check needed

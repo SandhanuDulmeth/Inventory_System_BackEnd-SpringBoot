@@ -17,7 +17,7 @@ public class AdminRepositoryImpl implements AdminRepository {
     @Override
     public Boolean checkAdminByEmail(String email) {
         try {
-            ResultSet resultSet = CrudUtil.execute("SELECT EXISTS (SELECT 1 FROM Admin WHERE email=?)", email);
+            ResultSet resultSet = CrudUtil.executeQuery("SELECT EXISTS (SELECT 1 FROM Admin WHERE email=?)", email);
             if (resultSet.next()) {
                 return resultSet.getBoolean(1);
             }
@@ -30,7 +30,7 @@ public class AdminRepositoryImpl implements AdminRepository {
     @Override
     public Boolean checkAdminPasswordByEmail(String email, String password) {
         try {
-            ResultSet resultSet = CrudUtil.execute("SELECT EXISTS (SELECT 1 FROM Admin WHERE email = ? AND password = ?)", email, password);
+            ResultSet resultSet = CrudUtil.executeQuery("SELECT EXISTS (SELECT 1 FROM Admin WHERE email = ? AND password = ?)", email, password);
             if (resultSet.next()) {
                 return resultSet.getBoolean(1);
             }

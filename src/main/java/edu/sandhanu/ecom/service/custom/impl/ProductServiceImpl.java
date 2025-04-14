@@ -1,6 +1,7 @@
 package edu.sandhanu.ecom.service.custom.impl;
 
 
+import edu.sandhanu.ecom.entity.ProductEntity;
 import edu.sandhanu.ecom.model.Product;
 import edu.sandhanu.ecom.repository.custom.ProductRepository;
 import edu.sandhanu.ecom.service.custom.ProductService;
@@ -26,4 +27,13 @@ public class ProductServiceImpl implements ProductService {
         productRepository.gettAll().forEach(product -> products.add(mapper.map(product, Product.class)));
         return products;
     }
+
+    @Override
+    public Product createProduct(Product product) {
+
+        ProductEntity entity = mapper.map(product, ProductEntity.class);
+        ProductEntity savedEntity = productRepository.save(entity);
+        return mapper.map(savedEntity, Product.class);
+    }
+
 }

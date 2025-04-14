@@ -4,10 +4,9 @@ import edu.sandhanu.ecom.model.Product;
 import edu.sandhanu.ecom.service.custom.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
@@ -16,13 +15,19 @@ import java.util.ArrayList;
 @RequestMapping("/ProductController")
 @RequiredArgsConstructor
 public class ProductController {
-    @Autowired
-    final ProductService productService;
+    private final ProductService productService;
+
+    @PostMapping("/create")
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+        Product createdProduct = productService.createProduct(product);
+        return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
+    }
 
     @GetMapping("/get-Items")
     public ArrayList<Product> getProduct() {
+        return productService.getProduct();
+    }
 
-        return productService.getProduct();}
 
 
 }

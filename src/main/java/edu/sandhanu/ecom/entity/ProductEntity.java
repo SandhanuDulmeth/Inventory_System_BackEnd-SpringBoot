@@ -1,5 +1,6 @@
 package edu.sandhanu.ecom.entity;
 
+import edu.sandhanu.ecom.util.Category;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class ProductEntity {
     private String description;
     private Double price;
     private Integer quantity;
+    private Integer categoryId;
 
 
 

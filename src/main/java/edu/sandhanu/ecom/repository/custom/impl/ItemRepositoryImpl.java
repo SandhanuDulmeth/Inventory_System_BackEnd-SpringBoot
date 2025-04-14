@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class ItemRepositoryImpl implements ItemRepository {
     @Override
     public int countAllItems(Long customerId) {
-        try (ResultSet resultSet = CrudUtil.execute(
+        try (ResultSet resultSet = CrudUtil.executeQuery(
                 "SELECT COUNT(*) AS count FROM Product WHERE customer_id = ?",
                 customerId
         )) {
@@ -21,7 +21,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public int countLowStockItems(int threshold, Long customerId) {
-        try (ResultSet resultSet = CrudUtil.execute(
+        try (ResultSet resultSet = CrudUtil.executeQuery(
                 "SELECT COUNT(*) AS count FROM Product WHERE stock_quantity < ? AND customer_id = ?",
                 threshold, customerId
         )) {
@@ -33,7 +33,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public double calculateTotalValue(Long customerId) {
-        try (ResultSet resultSet = CrudUtil.execute(
+        try (ResultSet resultSet = CrudUtil.executeQuery(
                 "SELECT SUM(price * stock_quantity) AS total_value FROM Product WHERE customer_id = ?",
                 customerId
         )) {
@@ -45,7 +45,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public int countDistinctCategories(Long customerId) {
-        try (ResultSet resultSet = CrudUtil.execute(
+        try (ResultSet resultSet = CrudUtil.executeQuery(
                 "SELECT COUNT(DISTINCT category_id) AS category_count FROM Product WHERE customer_id = ?",
                 customerId
         )) {
