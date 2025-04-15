@@ -1,17 +1,14 @@
 package edu.sandhanu.ecom.config;
 
 
-import edu.sandhanu.ecom.repository.custom.AdminRepository;
-import edu.sandhanu.ecom.repository.custom.ItemRepository;
-import edu.sandhanu.ecom.repository.custom.MessageRepository;
-import edu.sandhanu.ecom.repository.custom.ProductRepository;
-import edu.sandhanu.ecom.repository.custom.impl.AdminRepositoryImpl;
-import edu.sandhanu.ecom.repository.custom.impl.ItemRepositoryImpl;
-import edu.sandhanu.ecom.repository.custom.impl.MessageReositoryImpl;
-import edu.sandhanu.ecom.repository.custom.impl.ProductRepositoryImpl;
+import edu.sandhanu.ecom.model.Category;
+import edu.sandhanu.ecom.repository.custom.*;
+import edu.sandhanu.ecom.repository.custom.impl.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 @Configuration
 public class AppConfig {
@@ -34,6 +31,12 @@ public class AppConfig {
     public MessageRepository messageRepository() {
         return new MessageReositoryImpl();
     }
+
+    @Bean
+    public CategoryRepository categoryRepository() {return new CategoryRepositoryImpl();}
+
+    @Bean
+    public OrderRepository orderRepository(){return new OrderRepositoryImpl();}
 
 
 
