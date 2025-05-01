@@ -36,11 +36,11 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     public Integer getCustomerIdByEmail(String email) {
         try {
             ResultSet resultSet = CrudUtil.executeQuery(
-                    "SELECT customer_id FROM Customer WHERE email = ?",
+                    "SELECT id FROM Customer WHERE email = ?",
                     email
             );
             if (resultSet.next()) {
-                return resultSet.getInt("customer_id");
+                return resultSet.getInt("id");
             }
             return null;
         } catch (SQLException e) {

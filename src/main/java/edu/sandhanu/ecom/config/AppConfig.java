@@ -38,6 +38,9 @@ public class AppConfig {
     @Bean
     public OrderRepository orderRepository(){return new OrderRepositoryImpl();}
 
+    @Bean
+    public CustomerRepository customerRepository(){return new CustomerRepositoryImpl();}
+
 
 
     @Bean
