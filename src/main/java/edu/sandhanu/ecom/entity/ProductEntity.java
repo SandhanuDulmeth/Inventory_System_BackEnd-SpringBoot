@@ -21,6 +21,7 @@ public class ProductEntity {
     private Double price;
     private Integer quantity;
     private Integer categoryId;
+    private Long customerId;
 
 
 

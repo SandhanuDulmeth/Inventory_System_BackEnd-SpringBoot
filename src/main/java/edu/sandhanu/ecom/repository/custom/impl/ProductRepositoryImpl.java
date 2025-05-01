@@ -27,7 +27,8 @@ public class ProductRepositoryImpl implements ProductRepository {
                         resultSet.getString(3),
                         resultSet.getDouble(4),
                         resultSet.getInt(5),
-                        resultSet.getInt(6)
+                        resultSet.getInt(6),
+                        resultSet.getLong(7)
                 ));
 
             }
@@ -44,12 +45,13 @@ public class ProductRepositoryImpl implements ProductRepository {
         try {
             // Use the new executeInsert(...) method
             ResultSet generatedKeys = CrudUtil.executeInsert(
-                    "INSERT INTO PRODUCT (name, description, price, stock_quantity, category_id) VALUES (?, ?, ?, ?, ?)",
+                    "INSERT INTO PRODUCT (name, description, price, stock_quantity, category_id, customer_id) VALUES (?, ?, ?, ?, ?, ?)",
                     entity.getName(),
                     entity.getDescription(),
                     entity.getPrice(),
                     entity.getQuantity(),
-                    entity.getCategoryId()
+                    entity.getCategoryId(),
+                    entity.getCustomerId()
             );
 
             if (generatedKeys.next()) {
