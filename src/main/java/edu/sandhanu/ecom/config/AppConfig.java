@@ -41,6 +41,9 @@ public class AppConfig {
     @Bean
     public CustomerRepository customerRepository(){return new CustomerRepositoryImpl();}
 
+    @Bean
+    public SupplierRepository supplierRepository(){return new SupplierRepositoryImpl();}
+
 
 
     @Bean
