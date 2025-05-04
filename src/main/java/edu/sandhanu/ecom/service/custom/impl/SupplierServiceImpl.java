@@ -31,4 +31,16 @@ public class SupplierServiceImpl implements SupplierService {
         SupplierEntity savedEntity = supplierRepository.save(entity);
         return mapper.map(savedEntity, Supplier.class);
     }
+
+    @Override
+    public Supplier updateSupplier(Integer id, Supplier supplier) {
+        SupplierEntity entity = mapper.map(supplier, SupplierEntity.class);
+        entity.setId(id); // Ensure ID is set from path variable
+        supplierRepository.update(entity);
+        return mapper.map(entity, Supplier.class);
+    }
+    @Override
+    public void deleteSupplier(Integer id) {
+        supplierRepository.delete(id);
+    }
 }

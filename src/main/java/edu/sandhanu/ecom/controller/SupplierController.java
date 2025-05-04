@@ -26,4 +26,19 @@ public class SupplierController {
     public ArrayList<Supplier> getSuppliers() {
         return supplierService.getSuppliers();
     }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Supplier> updateSupplier(
+            @PathVariable Integer id,
+            @RequestBody Supplier supplier
+    ) {
+        Supplier updated = supplierService.updateSupplier(id, supplier);
+        return ResponseEntity.ok(updated);
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteSupplier(@PathVariable Integer id) {
+        supplierService.deleteSupplier(id);
+        return ResponseEntity.noContent().build();
+    }
 }

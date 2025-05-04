@@ -9,4 +9,7 @@ import java.util.ArrayList;
 public interface SupplierRepository extends CrudRepository<SupplierEntity> {
     ArrayList<SupplierEntity> gettAll();
     SupplierEntity save(SupplierEntity entity);
+    void update(SupplierEntity entity);
+    void delete(Integer id);
+
 }

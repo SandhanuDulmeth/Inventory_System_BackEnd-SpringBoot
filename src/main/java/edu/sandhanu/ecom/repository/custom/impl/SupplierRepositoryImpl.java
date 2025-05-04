@@ -55,4 +55,35 @@ public class SupplierRepositoryImpl implements SupplierRepository {
             throw new RuntimeException("Error saving supplier", e);
         }
     }
+
+    @Override
+    public void update(SupplierEntity entity) {
+        try {
+            CrudUtil.executeUpdate(
+                    "UPDATE suppliers SET name=?, contact_person=?, email=?, phone=?, address=?, status=? WHERE id=?",
+                    entity.getName(),
+                    entity.getContactPerson(),
+                    entity.getEmail(),
+                    entity.getPhone(),
+                    entity.getAddress(),
+                    entity.getStatus().toString(),
+                    entity.getId()
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException("Error updating supplier: " + entity.getId(), e);
+        }
+    }
+
+    @Override
+    public void delete(Integer id) {
+        try {
+            CrudUtil.executeUpdate("DELETE FROM suppliers WHERE id = ?", id);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error deleting supplier with ID: " + id, e);
+        }
+    }
+
+
+
+
 }
