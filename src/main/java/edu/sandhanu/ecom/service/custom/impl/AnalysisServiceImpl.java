@@ -33,4 +33,19 @@ public class AnalysisServiceImpl implements AnalysisService {
     public List<OrderDetailsDTO> getOrderDetails(Long customerId) {
         return orderRepository.findOrdersWithItems(customerId);
     }
+
+    @Override
+    public int getLowStockCount(Long customerId) {
+        return itemRepository.countLowStockItems(10, customerId);
+    }
+
+    @Override
+    public double getTotalValue(Long customerId) {
+        return itemRepository.calculateTotalValue(customerId);
+    }
+
+    @Override
+    public int getCategoriesCount(Long customerId) {
+        return itemRepository.countDistinctCategories(customerId);
+    }
 }

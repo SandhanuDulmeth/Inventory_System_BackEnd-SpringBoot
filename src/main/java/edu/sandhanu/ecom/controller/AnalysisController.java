@@ -34,4 +34,18 @@ public class AnalysisController {
         return ResponseEntity.ok(analysisSerivce.getOrderDetails(customerId));
     }
 
+    @GetMapping("/low-stock")
+    public ResponseEntity<Integer> getLowStockCount(@RequestParam Long customerId) {
+        return ResponseEntity.ok(analysisSerivce.getLowStockCount(customerId));
+    }
+
+    @GetMapping("/total-value")
+    public ResponseEntity<Double> getTotalValue(@RequestParam Long customerId) {
+        return ResponseEntity.ok(analysisSerivce.getTotalValue(customerId));
+    }
+
+    @GetMapping("/categories/count")
+    public ResponseEntity<Integer> getCategoriesCount(@RequestParam Long customerId) {
+        return ResponseEntity.ok(analysisSerivce.getCategoriesCount(customerId));
+    }
 }

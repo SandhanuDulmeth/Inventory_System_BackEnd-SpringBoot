@@ -9,4 +9,7 @@ public interface AnalysisService {
     int getTotalItemsCount(Long customerId);
     List<Category> getAllCategories();
     List<OrderDetailsDTO> getOrderDetails(Long customerId);
+    int getLowStockCount(Long customerId);
+    double getTotalValue(Long customerId);
+    int getCategoriesCount(Long customerId);
 }
